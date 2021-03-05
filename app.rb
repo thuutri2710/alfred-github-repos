@@ -9,7 +9,7 @@ require 'data_source/repositories'
 require 'commands/help'
 require 'commands/search'
 require 'commands/user_repos'
-require 'commands/user_repos_pulls'
+require 'commands/user_repo_pulls'
 require 'commands/user_pulls'
 
 class App
@@ -23,7 +23,8 @@ class App
         cache_dir: ENV['alfred_workflow_cache'],
         cache_ttl_sec_repo: ENV['CACHE_TTL_SEC_REPO'].to_i,
         cache_ttl_sec_org: ENV['CACHE_TTL_SEC_ORG'].to_i,
-        cache_ttl_sec_pr: ENV['CACHE_TTL_SEC_PR'].to_i
+        cache_ttl_sec_pr: ENV['CACHE_TTL_SEC_PR'].to_i,
+        cache_ttl_sec_repo_pr: ENV['CACHE_TTL_SEC_REPO_PR'].to_i
       )
     end
 
@@ -47,8 +48,8 @@ class App
       Commands::UserRepos.new(repositories: repositories)
     end
 
-    def user_repos_pulls
-      Commands::UserReposPulls.new(repositories: repositories)
+    def user_repo_pulls
+      Commands::UserRepoPulls.new(repositories: repositories)
     end
 
     def user_pulls

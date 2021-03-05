@@ -3,10 +3,11 @@
 
 module Apps
   class Cli
-    def initialize(search:, user_repos:, user_pulls:, help:)
+    def initialize(search:, user_repos:, user_pulls:,user_repo_pulls:, help:)
       @search = search
       @user_repos = user_repos
       @user_pulls = user_pulls
+      @user_repo_pulls = user_repo_pulls
       @help = help
     end
 
@@ -24,6 +25,7 @@ module Apps
       when 'search' then @search
       when 'user-repos' then @user_repos
       when 'user-pulls' then @user_pulls
+      when 'user-repo_pulls' then @user_repo_pulls
       when 'help' then @help
       end
     end
@@ -38,6 +40,7 @@ if __FILE__ == $0
       search: App.search,
       user_repos: App.user_repos,
       user_pulls: App.user_pulls,
+      user_repo_pulls: App.user_repo_pulls,
       help: App.help
     )
     puts cli.call(ARGV)

@@ -18,18 +18,21 @@ module DataSource
           cache_ttl_sec_repo: 24 * 60 * 60,
           cache_ttl_sec_org: 24 * 60 * 60,
           cache_ttl_sec_pr: 5 * 60,
+          cache_ttl_sec_repo_pr: 5 * 60,
         }.merge(config)
 
         @cache_name_hash = {
           user_repos: 'user_repos',
           user_orgs: 'user_orgs',
           user_pulls: 'user_pulls'
+          user_repo_pulls: 'user_repo_pulls',
         }
 
         @cache_ttl_hash = {
           user_repos: @config[:cache_ttl_sec_repo],
           user_orgs: @config[:cache_ttl_sec_org],
-          user_pulls: @config[:cache_ttl_sec_pr]
+          user_pulls: @config[:cache_ttl_sec_pr],
+          user_repo_pulls: @config[:cache_ttl_sec_repo_pr]
         }
       end
 
@@ -53,16 +56,16 @@ module DataSource
         responses.flatten(1)
       end
 
-      def user_repos_pulls
-        params = {
-          sort: 'pushed',
-          direction: 'desc',
+      def user_repo_pulls(query)
+        params = search_params(query, pull_modifiers).merge(
           per_page: 100
-        }
-        responses = with_cache(:user_repos) do
-          merge_multipage_results('/user/repos', params, 100)
+        )
+        search_query = '/repos/'+:user_pulls+'/'+query+'/pulls'
+        responses = with_cache(:user_pulls) do
+          merge_multipage_results('/search/issues', params, 100)
         end
-        responses.flatten(1)
+
+        responses.flat_map {|r| r[:items]}
       end
 
       def user_pulls

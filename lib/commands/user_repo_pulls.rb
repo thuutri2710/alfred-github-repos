@@ -3,9 +3,9 @@
 require 'json'
 
 module Commands
-  class UserReposPulls
+  class UserRepoPulls
     def self.help
-      'Usage: cli user-repos [query]'
+      'Usage: cli user-repo-pr [query]'
     end
 
     def initialize(repositories:)
@@ -29,8 +29,8 @@ module Commands
       user_repos.select { |repo| filter =~ repo.full_name }
     end
 
-    def user_repos
-      repositories.user_repos
+    def user_repo_pulls(params)
+      repositories.user_repo_pulls(params)
     end
 
     def serialize(results)
