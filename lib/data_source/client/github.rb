@@ -53,6 +53,18 @@ module DataSource
         responses.flatten(1)
       end
 
+      def user_repos_pulls
+        params = {
+          sort: 'pushed',
+          direction: 'desc',
+          per_page: 100
+        }
+        responses = with_cache(:user_repos) do
+          merge_multipage_results('/user/repos', params, 100)
+        end
+        responses.flatten(1)
+      end
+
       def user_pulls
         params = search_params('', pull_modifiers).merge(
           per_page: 100

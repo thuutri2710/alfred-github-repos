@@ -9,6 +9,7 @@ require 'data_source/repositories'
 require 'commands/help'
 require 'commands/search'
 require 'commands/user_repos'
+require 'commands/user_repos_pulls'
 require 'commands/user_pulls'
 
 class App
@@ -44,6 +45,10 @@ class App
 
     def user_repos
       Commands::UserRepos.new(repositories: repositories)
+    end
+
+    def user_repos_pulls
+      Commands::UserReposPulls.new(repositories: repositories)
     end
 
     def user_pulls
